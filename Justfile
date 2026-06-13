@@ -7,9 +7,14 @@ default:
     @just --list
 
 # ── C++ ──────────────────────────────────────────────────────────────────────
+ABSL_PREFIX := `brew --prefix abseil`
 
 cpp-build:
-    c++ -std=c++23 -O2 -Wall -Wextra -o shell-cpp/shell shell-cpp/src/*.cpp
+    c++ -std=c++23 -O2 -Wall -Wextra \
+        -I{{ABSL_PREFIX}}/include \
+        -L{{ABSL_PREFIX}}/lib \
+        -labsl_str_format_internal \
+        -o shell-cpp/shell shell-cpp/src/*.cpp
 
 cpp-run: cpp-build
     ./shell-cpp/shell
